@@ -96,10 +96,11 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/opensans_semibold"
-                    android:hint="1 viên"
+                    android:hint=" viên/mililit"
                     android:paddingTop="16dp"
                     android:textColor="@color/blue_1"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:inputType="number"/>
 
                 <View
                     android:layout_width="match_parent"

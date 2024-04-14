@@ -88,7 +88,7 @@
             android:text="Đăng xuất"
             android:textSize="20dp"
             app:backgroundTint="@color/maubutton"
-            app:icon="@drawable/baseline_cloud_sync_24" />
+            app:icon="@drawable/logout" />
 
     </LinearLayout>
 

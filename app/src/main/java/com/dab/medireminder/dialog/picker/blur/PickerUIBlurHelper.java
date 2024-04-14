@@ -19,26 +19,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dab.medireminder.R;
-/*
- */
 
 public class PickerUIBlurHelper {
 
     private static final String LOG_TAG = PickerUIBlurHelper.class.getSimpleName();
 
-    /**
-     * Down scale factor to reduce blurring time and memory allocation.
-     */
     private float mDownScaleFactor = PickerUIBlur.DEFAULT_DOWNSCALE_FACTOR;
 
-    /**
-     * An imageview to display the blurred snapshot/bitmap
-     */
     private ImageView mBlurredImageView;
 
-    /**
-     * Blur radius used for the background.
-     */
     private int mBlurRadius = PickerUIBlur.DEFAULT_BLUR_RADIUS;
 
     private ViewGroup mRootView;
@@ -62,12 +51,7 @@ public class PickerUIBlurHelper {
 
     }
 
-    /**
-     * Generate a bitmap from a particular view.
-     *
-     * @param view the view to convert to a Bitmap
-     * @return the bitmap of the view
-     */
+
     public Bitmap loadBitmapFromView(View view) {
         if (view != null && view.getWidth() > 0 && view.getHeight() > 0) {
             Bitmap b = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
@@ -80,22 +64,13 @@ public class PickerUIBlurHelper {
     }
 
 
-    /**
-     * Downscale bitmap from view to reduce blurring time and memory allocation, using the downscale
-     * factor.
-     *
-     * @param bitmap The Bitmap to downscale
-     * @return the bitmap downscaled
-     */
+
     public Bitmap downscaleBitmap(Bitmap bitmap) {
         int width = (int) (bitmap.getWidth() / mDownScaleFactor);
         int height = (int) (bitmap.getHeight() / mDownScaleFactor);
         return Bitmap.createScaledBitmap(bitmap, width, height, false);
     }
 
-    /**
-     * Retrieve styles attributes
-     */
     private void getAttributes(AttributeSet attrs) {
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.PickerUI, 0, 0);
 
@@ -118,13 +93,7 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * Apply custom down scale factor
-     * <p>
-     * By default down scale factor is set to {@link PickerUIBlur#MIN_DOWNSCALE}
-     *
-     * @param downScaleFactor Factor customized down scale factor, must be at least 1
-     */
+
     public void setDownScaleFactor(float downScaleFactor) {
         if (!PickerUIBlur.isValidDownscale(downScaleFactor)) {
             throw new IllegalArgumentException("Invalid downsampling");
@@ -133,31 +102,16 @@ public class PickerUIBlurHelper {
                 : downScaleFactor;
     }
 
-    /**
-     * Method to set the use of blur effect
-     *
-     * @param useBlur if want to use blur
-     */
     public void setUseBlur(boolean useBlur) {
         mUseBlur = useBlur;
     }
 
-    /**
-     * Method to set the use of renderScript algorithm
-     *
-     * @param useRenderScript if want to use renderScript algorithm
-     */
+
     public void setUseRenderScript(boolean useRenderScript) {
         mUseRenderScript = useRenderScript;
     }
 
-    /**
-     * Select your preferred blur radius to apply
-     * <p>
-     * By default blur radius is set to {@link PickerUIBlur#MIN_BLUR_RADIUS}
-     *
-     * @param blurRadius The radius to blur the image, radius must be at least 1
-     */
+
     public void setBlurRadius(int blurRadius) {
         if (!PickerUIBlur.isValidBlurRadius(blurRadius)) {
             throw new IllegalArgumentException("Invalid blur radius");
@@ -169,22 +123,12 @@ public class PickerUIBlurHelper {
         view.setAlpha(alpha);
     }
 
-    /**
-     * Select the color filter to the blur effect
-     *
-     * @param filterColor The color to overlay
-     */
+
     public void setFilterColor(int filterColor) {
         this.mFilterColor = filterColor;
     }
 
-    /**
-     * This method puts a layer over the image if you choose to put a color filter.
-     *
-     * @param sourceBitmap the bitmap downscaled and blurred.
-     * @param image        the ImageView at which to place the downscaled and blurred image
-     * @param color        the filter color to apply over the image
-     */
+
     private void changeBitmapColor(Bitmap sourceBitmap, ImageView image, int color) {
 
         Bitmap resultBitmap = Bitmap
@@ -199,13 +143,7 @@ public class PickerUIBlurHelper {
         canvas.drawBitmap(resultBitmap, 0, 0, p);
     }
 
-    /**
-     * This method set the downscaled and blurred image in the fake ImageView, and with a filter
-     * over the image if it's
-     * necessary.
-     *
-     * @param blurBitmap the bitmap downscaled and blurred.
-     */
+
     void setBackground(Bitmap blurBitmap) {
         BitmapDrawable bd = new BitmapDrawable(mContext.getResources(), blurBitmap);
         bd.setAlpha(mAlpha);
@@ -216,11 +154,7 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * This method shows the fake ImageView and set the new blurred image.
-     *
-     * @param bitmapWithBlur the bitmap downscaled and blurred.
-     */
+
     public void showBlurImage(Bitmap bitmapWithBlur) {
         if (mUseBlur) {
             mBlurredImageView.setImageBitmap(null);
@@ -231,10 +165,7 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * This method hides the fake ImageView, the blurred image is recycled and the background of the fake ImageView is
-     * cleared.
-     */
+
     public void handleRecycle() {
         if (mUseBlur) {
             Drawable drawable = mBlurredImageView.getDrawable();
@@ -252,9 +183,7 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * Create a ImageView with width and height MATCH_PARENT, which will host the blurred snapshot.
-     */
+
     private void createImageViewBlur() {
 
         if (mUseBlur) {
@@ -285,10 +214,7 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * This method first checks if it is necessary to perform the Blur task.
-     * If it's necesarry, launch the BlurTask. If it's necessary, it notifies to show the panel.
-     */
+
     public void render() {
         if (mUseBlur) {
             PickerUIBlurTask pickerUIBlurTask = new PickerUIBlurTask((Activity) mContext,
@@ -304,25 +230,12 @@ public class PickerUIBlurHelper {
         }
     }
 
-    /**
-     * Set a callback listener when blur has finished
-     *
-     * @param listener Callback instance.
-     */
+
     public void setBlurFinishedListener(BlurFinishedListener listener) {
         this.mBlurFinishedListener = listener;
     }
 
-    /**
-     * Interface for a callback when blur has finished
-     */
     public interface BlurFinishedListener {
-
-        /**
-         * Callback when the blur has finished
-         *
-         * @param bitmapWithBlur Return bitmap with blurr applied
-         */
         void onBlurFinished(Bitmap bitmapWithBlur);
     }
 }

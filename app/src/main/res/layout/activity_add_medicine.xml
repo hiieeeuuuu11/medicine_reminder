@@ -82,10 +82,11 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/opensans_semibold"
-                    android:hint="Nhập liều lượng (viên)"
+                    android:hint="Nhập liều lượng (viên/mililit)"
                     android:paddingTop="16dp"
                     android:textColor="@color/color_button"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:inputType="number"/>
 
                 <View
                     android:layout_width="match_parent"

@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- */
 
 public class PickerUIAdapter extends ArrayAdapter<String> {
 
@@ -40,18 +37,7 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
     private int mColorTextNoCenter = -1;
     private boolean isInEditMode = false;
 
-    /**
-     * Constructor to use the adapter.
-     *
-     * @param context         The current context.
-     * @param resource        The resource ID for a layout file containing a layout to use when
-     *                        instantiating views.
-     * @param items           The objects to represent in the ListView.
-     * @param position        position to set in the center of the list. By default, is the half of
-     *                        items.
-     * @param itemsClickables to set if items can be clicked.
-     * @param isInEditMode    to avoid to set styles.
-     */
+
     public PickerUIAdapter(Context context, int resource, List<String> items, int position,
                            boolean itemsClickables,
                            boolean isInEditMode) {
@@ -77,9 +63,6 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         String option = items.get(position);
         textItem.setText(option);
 
-        /**
-         * If isInEditMode active, don't set styles
-         */
         if (!isInEditMode) {
             setTextItemStyle(textItem, position);
         }
@@ -87,12 +70,7 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    /**
-     * This method sets the appropriate style to each of the components to get a carousel effect.
-     *
-     * @param textItem the TextView of the current position of the actual item
-     * @param position the current position of the actual item
-     */
+
     private void setTextItemStyle(TextView textItem, int position) {
 
         if (position == centerPosition) {
@@ -144,32 +122,15 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         }
     }
 
-    /**
-     * Sets the text color for the item of the center.
-     *
-     * @param color the color of the text
-     */
+
     public void setColorTextCenter(int color) {
         mColorTextCenter = color;
     }
 
-    /**
-     * Sets the text color for the items which aren't in the center.
-     *
-     * @param color the color of the text
-     */
     public void setColorTextNoCenter(int color) {
         mColorTextNoCenter = color;
     }
 
-    /**
-     * This method is used to set the items to display in the panel and the empty rows int the
-     * beginning and in the
-     * end.
-     *
-     * @param rawItems elements to show in panel
-     * @param position position to set in the center of the list. By default, is the half of items.
-     */
     void setItems(List<String> rawItems, int position) {
 
         addEmptyRows(rawItems);
@@ -181,31 +142,15 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         }
 
     }
-
-    /**
-     * It saves in {@link PickerUIAdapter#centerPosition} and notify adapter. Then, the adapter in
-     * {@link
-     *
-     * @param position this is the position in the center of the list
-     */
     public void handleSelectEvent(int position) {
         this.centerPosition = position;
         this.notifyDataSetChanged();
     }
 
-    /**
-     * This method set if the elements can be clicked by the user.
-     *
-     * @param itemsClickables indicates whether the items are clickable or not.
-     */
     public void setItemsClickables(boolean itemsClickables) {
         this.itemsClickables = itemsClickables;
     }
 
-    /**
-     * The first two positions must be empty.
-     * The last 2 positions must be empty too.
-     */
     private void setPositonsNoClickables() {
 
         positionsNoClickables.put(0, 0);
@@ -214,12 +159,6 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         positionsNoClickables.put(items.size() - 1, items.size() - 1);
     }
 
-    /**
-     * The first two positions must be empty.
-     * The last 2 positions must be empty too.
-     *
-     * @param rawItems the items to show in panel
-     */
     private void addEmptyRows(List<String> rawItems) {
 
         List<String> emptyRows = Arrays.asList(EMPTY_STRING, EMPTY_STRING);
@@ -236,16 +175,6 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         return items.size();
     }
 
-    /**
-     * This method indicates whether items can be clicked.
-     * <p>
-     * if it is allowed that elements can be clicked, the first two positions and the last 2
-     * positions can not be
-     * pressed.
-     *
-     * @param position the current position of the actual item
-     * @return if this item is clickable
-     */
     @Override
     public boolean isEnabled(int position) {
         if (!itemsClickables) {
@@ -257,9 +186,6 @@ public class PickerUIAdapter extends ArrayAdapter<String> {
         }
     }
 
-    /**
-     * Generic ViewHolde static class
-     */
     public static class ViewHolder {
 
         @SuppressWarnings("unchecked")

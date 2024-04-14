@@ -9,9 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.dab.medireminder.R;
 
-/**
- * By DaB
- */
+
 public class UITextViewCustom extends AppCompatTextView {
 
     public UITextViewCustom(Context context) {

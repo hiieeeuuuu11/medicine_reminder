@@ -14,10 +14,6 @@ import com.dab.medireminder.R;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- */
-
 public class PickerUIListView extends ListView {
 
     private final static int ROW_HEIGHT = 40;
@@ -29,9 +25,7 @@ public class PickerUIListView extends ListView {
     private List<String> items;
     private int which;
 
-    /**
-     * Default constructor
-     */
+
     public PickerUIListView(Context context) {
         super(context);
         if (isInEditMode()) {
@@ -41,9 +35,6 @@ public class PickerUIListView extends ListView {
         }
     }
 
-    /**
-     * Default constructor
-     */
     public PickerUIListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
@@ -53,9 +44,7 @@ public class PickerUIListView extends ListView {
         }
     }
 
-    /**
-     * Default constructor
-     */
+
     public PickerUIListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (isInEditMode()) {
@@ -65,11 +54,7 @@ public class PickerUIListView extends ListView {
         }
     }
 
-    /**
-     * Constructor with items to show in the panel
-     *
-     * @param items elements to show in panel
-     */
+
     public PickerUIListView(Activity context, List<String> items) {
         super(context);
         if (isInEditMode()) {
@@ -79,14 +64,7 @@ public class PickerUIListView extends ListView {
         }
     }
 
-    /**
-     * This method inflates the ListView to be visible from Preview Layout.
-     * It use a mock list (item0, item1, item2...) and set the center in the middle of the list with
-     * 'setSelection(...)'
-     * It only applies in Preview Layout.
-     *
-     * @param context it's necessary to use in {@link PickerUIAdapter}
-     */
+
     private void createEditModeView(Context context) {
         String[] entries = new String[10];
         for (int i = 0; i < 10; i++) {
@@ -106,7 +84,7 @@ public class PickerUIListView extends ListView {
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                //This will be called as the layout is finished, prior to displaying.
+
                 scrollEnabled = true;
 
                 if (PickerUIListView.this.items != null) {
@@ -116,7 +94,7 @@ public class PickerUIListView extends ListView {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 } else {
-                    //noinspection deprecation
+
                     getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
 
@@ -140,10 +118,8 @@ public class PickerUIListView extends ListView {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
-                // save index and top position
                 View v = getChildAt(0);
 
-                //Required to select the closest item when finger releases scroll
                 scrollTop = (v == null) ? 0 : v.getTop();
                 firstItem = firstVisibleItem;
 
@@ -161,16 +137,7 @@ public class PickerUIListView extends ListView {
         });
     }
 
-    /**
-     * This method is used by {@link PickerUI} to indicate to {@link PickerUIListView} the items to
-     * display in the panel and a number of configurations.
-     *
-     * @param context           {@link PickerUIAdapter} needs a context to inflate the layout
-     * @param items             elements to show in panel
-     * @param idRequestPickerUI id of the element
-     * @param position          position to set in the center of the list
-     * @param itemsClickables   indicates whether the items are clickable or not.
-     */
+
     public void setItems(Context context, List<String> items, int idRequestPickerUI, int position,
                          boolean itemsClickables) {
         this.items = items;
@@ -180,61 +147,25 @@ public class PickerUIListView extends ListView {
         setAdapter(mPickerUIAdapter);
     }
 
-    /**
-     * Method to select an item from the list and notifies {@link PickerUI} if necessary.
-     * Not notify {@link PickerUI} the 1st time , because it will be because they just set the items
-     * and not by
-     * voluntary user selection.
-     *
-     * @param position the position to select in the list and to set in the center
-     * @param notify   indicates whether to notify the selection of an item
-     */
     private void selectListItem(int position, final boolean notify) {
         setSelection(position);
 
-//        if (notify) {
-//            final Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    //We need to give the adapter time to draw the views
-//                    if (mItemClickListenerPickerUI == null) {
-//                        throw new IllegalStateException(
-//                                "You must assign a valid PickerUIListView.PickerUIItemClickListener first!");
-//                    }
         mItemClickListenerPickerUI
                 .onItemClickItemPickerUI(which, position, items.get(position));
-//
-//                }
-//            }, 200);
-//
-//        }
+
     }
 
-    /**
-     * Method to select an item from the list and notifies {@link PickerUI}.
-     *
-     * @param position the position to select in the list and to set in the center
-     */
     private void selectListItem(final int position) {
         selectListItem(position, true);
     }
 
-    /**
-     * Method to select an item and notify to {@link PickerUIAdapter} to set the style.
-     *
-     * @param position the position to select in the list and to set in the center
-     */
+
     private void setNewPositionCenter(int position) {
         mPickerUIAdapter.handleSelectEvent(position);
         selectListItem(position - 2);
     }
 
-    /**
-     * When the user is scrolling and stops, we need to get the item in the center of the list, save
-     * this position and
-     * notify to adapter.
-     */
+
     public int getItemInListCenter() {
 
         int position = pointToPosition(getWidth() / 2, getHeight() / 2);
@@ -254,27 +185,13 @@ public class PickerUIListView extends ListView {
         return mPickerUIAdapter;
     }
 
-    /**
-     * Set a callback listener for the item click.
-     *
-     * @param listener Callback instance.
-     */
+
     void setOnClickItemPickerUIListener(PickerUIItemClickListener listener) {
         this.mItemClickListenerPickerUI = listener;
     }
 
-    /**
-     * Interface for a callback when the item has been clicked.
-     */
-    public interface PickerUIItemClickListener {
 
-        /**
-         * Callback when the item has been clicked.
-         *
-         * @param which       id of the element has been clicked
-         * @param position    Position of the current item.
-         * @param valueResult Value of text of the current item.
-         */
+    public interface PickerUIItemClickListener {
         void onItemClickItemPickerUI(int which, int position, String valueResult);
     }
 }

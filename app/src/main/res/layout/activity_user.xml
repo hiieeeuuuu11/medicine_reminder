@@ -41,7 +41,7 @@
             android:drawableStart="@drawable/user"
             android:drawableLeft="@drawable/user"
             android:drawablePadding="30dp"
-            android:hint="Username"
+            android:hint="Tên đăng nhập"
             android:inputType="textEmailAddress"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
@@ -56,7 +56,7 @@
             android:drawableStart="@drawable/lock"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="30dp"
-            android:hint="Password"
+            android:hint="Mật khẩu"
             android:inputType="textPassword"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
@@ -73,14 +73,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15sp"
                 android:layout_weight="1"
-                android:text="Remember me" />
+                android:text="Ghi nhớ" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="172dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15sp"
-                android:text="Forgot Password ?"
+                android:text="Quên mật khẩu ?"
                 android:textSize="16sp"
                 android:translationX="35sp" />
         </LinearLayout>

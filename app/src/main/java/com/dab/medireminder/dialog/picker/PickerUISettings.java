@@ -8,9 +8,7 @@ import com.dab.medireminder.dialog.picker.blur.PickerUIBlur;
 
 import java.util.List;
 
-/**
- *
- */
+
 
 public class PickerUISettings implements Parcelable {
 
@@ -28,13 +26,9 @@ public class PickerUISettings implements Parcelable {
         };
     }
 
-    /**
-     * Default behaviour of PickerUi when an item is selected
-     */
+
     public static final boolean DEFAULT_AUTO_DISMISS = true;
-    /**
-     * Default behaviour of items
-     */
+
     public static final boolean DEFAULT_ITEMS_CLICKABLES = true;
     private List<String> mItems;
     private List<String> mItemsMinute;

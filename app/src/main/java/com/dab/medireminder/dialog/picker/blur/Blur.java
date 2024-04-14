@@ -9,33 +9,15 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 
-/**
- *
- */
 
 class Blur {
 
-    /**
-     * Process the image using renderscript if possible with default radius.
-     *
-     * @param context    renderscript requires an android context
-     * @param sentBitmap the bitmap to blur
-     * @return the Bitmap blurred.
-     */
     public static Bitmap apply(Context context, Bitmap sentBitmap) {
         return apply(context, sentBitmap, PickerUIBlur.DEFAULT_BLUR_RADIUS,
                 PickerUIBlur.DEFAULT_USE_BLUR_RENDERSCRIPT);
     }
 
-    /**
-     * Process the image using renderscript if possible
-     *
-     * @param context         renderscript requires an android context
-     * @param sentBitmap      the bitmap to blur
-     * @param radius          the radius to apply in the blur task
-     * @param useRenderScript if want to use renderScript algorithm
-     * @return the Bitmap blurred.
-     */
+
     @SuppressLint("NewApi")
     public static Bitmap apply(Context context, Bitmap sentBitmap, int radius,
                                boolean useRenderScript) {
@@ -44,13 +26,10 @@ class Blur {
                 sentBitmap.getHeight() / 2,
                 false);
 
-        /**
-         * If you want to use renderScript algorithm, first check if build version is < JellyBean to use library compat.
-         */
+
         if (useRenderScript) {
-//            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+
             final RenderScript rs = RenderScript.create(context);
-            //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
             final Allocation input = Allocation.createFromBitmap(rs, bitmap);
             final Allocation output = Allocation.createTyped(rs, input.getType());
             final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
@@ -60,67 +39,14 @@ class Blur {
             output.copyTo(bitmap);
 
             return bitmap;
-//            }
-//            } else {
-//                try {
-//                    final android.support.v8.renderscript.RenderScript rs
-//                            = android.support.v8.renderscript.RenderScript.create(context);
-//                    //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
-//                    final android.support.v8.renderscript.Allocation input
-//                            = android.support.v8.renderscript.Allocation
-//                            .createFromBitmap(rs, bitmap);
-//                    final android.support.v8.renderscript.Allocation output
-//                            = android.support.v8.renderscript.Allocation
-//                            .createTyped(rs, input.getType());
-//                    final android.support.v8.renderscript.ScriptIntrinsicBlur script
-//                            = android.support.v8.renderscript.ScriptIntrinsicBlur
-//                            .create(rs, android.support.v8.renderscript.Element.U8_4(rs));
-//                    script.setRadius(radius);
-//                    script.setInput(input);
-//                    script.forEach(output);
-//                    output.copyTo(bitmap);
-//                } catch (Exception e) {
-//                    Logger.w(e);
-//                    bitmap = fastblur(sentBitmap, radius);
-//                }
-//
-//                return bitmap;
-//            }
+
         } else {
             return fastblur(sentBitmap, radius);
         }
     }
 
 
-    /**
-     * Stack Blur v1.0 from
-     * http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html
-     * <p>
-     * Java Author: Mario Klingemann <mario at quasimondo.com>
-     * http://incubator.quasimondo.com
-     * created Feburary 29, 2004
-     * Android port : Yahel Bouaziz <yahel at kayenko.com>
-     * http://www.kayenko.com
-     * ported april 5th, 2012
-     * <p>
-     * This is a compromise between Gaussian Blur and Box blur
-     * It creates much better looking blurs than Box Blur, but is
-     * 7x faster than my Gaussian Blur implementation.
-     * <p>
-     * I called it Stack Blur because this describes best how this
-     * filter works internally: it creates a kind of moving stack
-     * of colors whilst scanning through the image. Thereby it
-     * just has to add one new block of color to the right side
-     * of the stack and remove the leftmost color. The remaining
-     * colors on the topmost layer of the stack are either added on
-     * or reduced by one, depending on if they are on the right or
-     * on the left side of the stack.
-     * <p>
-     * If you are using this algorithm in your code please add
-     * the following line:
-     * <p>
-     * Stack Blur Algorithm by Mario Klingemann <mario@quasimondo.com>
-     */
+
     private static Bitmap fastblur(Bitmap bitmap, int radius) {
 
         if (radius < 1) {
